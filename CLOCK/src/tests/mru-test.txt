@@ -1,0 +1,269 @@
+javac  -d ./bin -cp ./bin  ./src/tests/BMTest.java
+java -classpath ./bin tests.BMTest
+Creating database...
+Replacer: Clock
+
+Running buffer manager tests...
+
+  Test 1 does a simple test of normal buffer manager operations:
+Buffer size: 100
+Num pages: 110
+  - Allocate a bunch of new pages
+  - Write something on each one
+  - Read that something back from each one
+   (because we're buffering, this is where most of the writes happen)
+  - Free the pages again
+  Test 1 completed successfully.
+Creating database...
+Replacer: Clock
+
+  Test 2 exercises some illegal buffer manager operations:
+  - Try to pin more pages than there are frames
+  --> Failed as expected 
+
+  - Try to free a doubly-pinned page
+  --> Failed as expected 
+
+  - Try to unpin a page not in the buffer pool
+  --> Failed as expected 
+
+  Test 2 completed successfully.
+Creating database...
+Replacer: Clock
+
+  Test 3 exercises some of the internals of the buffer manager
+
+  - Allocate and dirty some new pages, one at a time, and leave some pinned
+  - Read the pages
+  Test 3 completed successfully.
+
+All buffer manager tests completed successfully!
+javac  -d ./bin -cp ./bin  ./src/tests/PolicyTest.java
+java -classpath ./bin tests.PolicyTest
+Creating database...
+Replacer: Clock
+
+Running policy tests for LRU, MRU, Clock, FIFO, and Random...
+
+  Starting Test 1 which is favorable to MRU ... 
+  - Allocate all pages
+
+  - Pin and unpin all pages in the buffer: 
+totPageHits: 2582
+totPageRequests: 8220
+pageLoadHits: 2582
+pageLoadRequests: 5638
++----------------------------------------+
+Unique page loads: 302
+Page faults (policy dependent): 5336
++----------------------------------------+
+Aggregate BHR (BHR1):   0.31411
+Load-based BHR (BHR2):   0.45796
++----------------------------------------+
+The top k (10) referenced pages are:
+       Page No.		No. of references
+	127		30
+	126		30
+	125		30
+	124		30
+	123		30
+	122		30
+	121		30
+	120		30
+	119		30
+	118		30
++----------------------------------------+
+  Test 1 completed successfully.
+
+  2 hits on page 9; rest 1 hit
+
+  higher values of BHR for MRU
+
+  lower (and may be same) values of BHR for LRU and Clock (may be others)
+
+  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Creating database...
+Replacer: Clock
+
+  Starting Test 2 (testing all policies; should show difference from policy to policy)... 
+
+  Also, SHOULD show different values of BHR's for policies in each round... 
+
+  Lower # of page faults --> better replacement poliy... 
+
+  higher BHR values --> better replacement poliy... 
+
+  - Allocate all pages
+
+  - load pages in random order (as well as pin) to generate hits and page faults: 
+entering round robin stage ...
+
+  Test 2: Round Robin for 15 iterations
+totPageHits: 13546
+totPageRequests: 16785
+pageLoadHits: 13546
+pageLoadRequests: 3239
++----------------------------------------+
+Unique page loads: 299
+Page faults (policy dependent): 2940
++----------------------------------------+
+Aggregate BHR (BHR1):   0.80703
+Load-based BHR (BHR2):   4.18216
++----------------------------------------+
+The top k (10) referenced pages are:
+       Page No.		No. of references
+	12		72
+	59		69
+	52		69
+	11		69
+	65		68
+	85		67
+	41		67
+	24		67
+	74		65
+	50		65
++----------------------------------------+
+
+++++++++++++++++++++++++++==============
+  Test 2: Iteration: 1
+totPageHits: 13619
+totPageRequests: 16882
+pageLoadHits: 13619
+pageLoadRequests: 3263
++----------------------------------------+
+Unique page loads: 299
+Page faults (policy dependent): 2964
++----------------------------------------+
+Aggregate BHR (BHR1):   0.80672
+Load-based BHR (BHR2):   4.17377
++----------------------------------------+
+The top k (10) referenced pages are:
+       Page No.		No. of references
+	12		72
+	11		69
+	52		69
+	59		69
+	65		68
+	24		67
+	41		67
+	85		67
+	30		65
+	43		65
++----------------------------------------+
+
+++++++++++++++++++++++++++==============
+  Test 2: Iteration: 2
+totPageHits: 13646
+totPageRequests: 16915
+pageLoadHits: 13646
+pageLoadRequests: 3269
++----------------------------------------+
+Unique page loads: 299
+Page faults (policy dependent): 2970
++----------------------------------------+
+Aggregate BHR (BHR1):   0.80674
+Load-based BHR (BHR2):   4.17437
++----------------------------------------+
+The top k (10) referenced pages are:
+       Page No.		No. of references
+	12		72
+	59		69
+	52		69
+	11		69
+	65		68
+	85		67
+	41		67
+	24		67
+	74		65
+	50		65
++----------------------------------------+
+
+++++++++++++++++++++++++++==============
+  Test 2: Iteration: 3
+totPageHits: 13688
+totPageRequests: 16964
+pageLoadHits: 13688
+pageLoadRequests: 3276
++----------------------------------------+
+Unique page loads: 299
+Page faults (policy dependent): 2977
++----------------------------------------+
+Aggregate BHR (BHR1):   0.80689
+Load-based BHR (BHR2):   4.17827
++----------------------------------------+
+The top k (10) referenced pages are:
+       Page No.		No. of references
+	12		72
+	11		69
+	52		69
+	59		69
+	65		68
+	24		67
+	41		67
+	85		67
+	30		65
+	43		65
++----------------------------------------+
+
+++++++++++++++++++++++++++==============
+  Test 2: Iteration: 4
+totPageHits: 13842
+totPageRequests: 17157
+pageLoadHits: 13842
+pageLoadRequests: 3315
++----------------------------------------+
+Unique page loads: 299
+Page faults (policy dependent): 3016
++----------------------------------------+
+Aggregate BHR (BHR1):   0.80678
+Load-based BHR (BHR2):   4.17557
++----------------------------------------+
+The top k (10) referenced pages are:
+       Page No.		No. of references
+	12		72
+	59		69
+	52		69
+	11		69
+	65		68
+	85		67
+	41		67
+	24		67
+	74		65
+	50		65
++----------------------------------------+
+
+++++++++++++++++++++++++++==============
+  Test 2: Iteration: 5
+totPageHits: 13908
+totPageRequests: 17241
+pageLoadHits: 13908
+pageLoadRequests: 3333
++----------------------------------------+
+Unique page loads: 299
+Page faults (policy dependent): 3034
++----------------------------------------+
+Aggregate BHR (BHR1):   0.80668
+Load-based BHR (BHR2):   4.17282
++----------------------------------------+
+The top k (10) referenced pages are:
+       Page No.		No. of references
+	12		72
+	11		69
+	52		69
+	59		69
+	65		68
+	24		67
+	41		67
+	85		67
+	30		65
+	43		65
++----------------------------------------+
+
+++++++++++++++++++++++++++==============
+  Test 2 completed successfully.
+
+
+  compare page faults for each policy
+
+
+All policy tests for LRU, MRU, Clock, FIFO, and Random completed successfully!
